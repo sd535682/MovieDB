@@ -10,7 +10,6 @@ import brandLogo from '../assets/netflix.png';
 import {FlashList} from '@shopify/flash-list';
 
 export default function HomeScreen() {
-  const brandIcon = '../src/assets/netflix.svg';
   const navigation = useNavigation();
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -44,24 +43,19 @@ export default function HomeScreen() {
     loadMovies();
   }, []);
 
-  if (loading)
-    return (
-      <View>
-        <ActivityIndicator size="large" color={Colors.red} />
-      </View>
-    );
-  if (error)
-    return (
-      <View>
-        <Text>Error: {error}</Text>
-      </View>
-    );
-
   const renderListItem = ({item}) => (
     <MovieCard movie={item.show} onPress={() => detailsNavigation(item.show)} />
   );
 
-  return (
+  return loading || error ? (
+    <View style={styles.centered}>
+      {loading ? (
+        <ActivityIndicator size="large" color={Colors.red} />
+      ) : (
+        <Text>Error: {error}</Text>
+      )}
+    </View>
+  ) : (
     <View style={styles.home_container}>
       <Header logo={brandLogo} icon={searchIcon} location={searchNavigation} />
       <FlashList
@@ -81,5 +75,11 @@ const styles = StyleSheet.create({
     minHeight: 2,
     backgroundColor: Colors.black,
     paddingHorizontal: 20,
+  },
+  centered: {
+    flex: 1,
+    backgroundColor: Colors.black,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
