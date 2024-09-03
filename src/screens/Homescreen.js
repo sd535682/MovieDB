@@ -13,6 +13,8 @@ import Colors from '../utils/Colors';
 import Header from '../components/Header';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import brandLogo from '../assets/netflix.png';
+import {FlashList} from '@shopify/flash-list';
+import {hp, wp} from '../utils/Reponsive';
 
 export default function HomeScreen() {
   const brandIcon = '../src/assets/netflix.svg';
@@ -62,21 +64,17 @@ export default function HomeScreen() {
       </View>
     );
 
+  const renderListItem = ({item}) => (
+    <MovieCard movie={item.show} onPress={() => detailsNavigation(item.show)} />
+  );
+
   return (
     <View style={styles.home_container}>
-      <Header
-        logo={brandLogo}
-        icon={searchIcon}
-        location={searchNavigation}
-      />
-      <FlatList
+      <Header logo={brandLogo} icon={searchIcon} location={searchNavigation} />
+      <FlashList
         data={movies}
-        renderItem={({item}) => (
-          <MovieCard
-            movie={item.show}
-            onPress={() => detailsNavigation(item.show)}
-          />
-        )}
+        renderItem={renderListItem}
+        estimatedItemSize={200}
         keyExtractor={item => item.show.id.toString()}
         showsVerticalScrollIndicator={false}
       />
@@ -87,8 +85,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   home_container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    minHeight: 2,
     backgroundColor: Colors.black,
     paddingHorizontal: 20,
   },

@@ -11,6 +11,7 @@ import {searchMovies} from '../services/api';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import SearchCard from '../components/SearchCard';
 import Colors from '../utils/Colors';
+import {FlashList} from '@shopify/flash-list';
 
 export default function SearchScreen({navigation}) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -54,6 +55,13 @@ export default function SearchScreen({navigation}) {
     handleSearch(searchTerm);
   }, [searchTerm]);
 
+  const renderSearchList = ({item}) => (
+    <SearchCard
+      movie={item.show}
+      onPress={() => navigation.navigate('Details', {movie: item.show})}
+    />
+  );
+
   return (
     <SafeAreaView style={styles.search_screen}>
       <View style={styles.container}>
@@ -62,16 +70,11 @@ export default function SearchScreen({navigation}) {
         {error && <Text>Error: {error}</Text>}
         {/* Only show FlatList if there is a search term and movies */}
         {searchTerm.trim() !== '' && movies.length > 0 && (
-          <FlatList
+          <FlashList
             data={movies}
-            renderItem={({item}) => (
-              <SearchCard
-                movie={item.show}
-                onPress={() =>
-                  navigation.navigate('Details', {movie: item.show})
-                }
-              />
-            )}
+            renderItem={renderSearchList}
+            estimatedItemSize={200}
+            showsVerticalScrollIndicator={false}
             keyExtractor={item => item.show.id.toString()}
           />
         )}
