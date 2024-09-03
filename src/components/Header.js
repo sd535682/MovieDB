@@ -1,5 +1,5 @@
 import {StyleSheet, View, Text, Pressable} from 'react-native';
-import Colors from '../styles/Colors';
+import Colors from '../utils/Colors';
 
 export default function Header({headerTitle, icon, location}) {
   return (

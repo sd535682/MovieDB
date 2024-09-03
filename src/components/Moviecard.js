@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet, Pressable} from 'react-native';
-import {hp, wp} from '../styles/reponsive';
+import {hp, wp} from '../utils/Reponsive';
 
 export default function MovieCard({movie, onPress}) {
   const cleanSummary = movie?.summary.replace(/<[^>]+>/g, '');

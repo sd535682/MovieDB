@@ -1,9 +1,15 @@
-import {Text, View, StyleSheet, FlatList} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
 import {useState, useEffect} from 'react';
 import {fetchAllMovies} from '../services/api';
 import MovieCard from '../components/Moviecard';
 import {useNavigation} from '@react-navigation/native';
-import Colors from '../styles/Colors';
+import Colors from '../utils/Colors';
 import Header from '../components/Header';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
@@ -44,7 +50,7 @@ export default function HomeScreen() {
   if (loading)
     return (
       <View>
-        <Text>Loading...</Text>
+        <ActivityIndicator size="large" color={Colors.red} />
       </View>
     );
   if (error)
@@ -67,7 +73,6 @@ export default function HomeScreen() {
         )}
         keyExtractor={item => item.show.id.toString()}
         showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
       />
     </View>
   );

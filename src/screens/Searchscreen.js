@@ -1,8 +1,16 @@
-import React, {useState} from 'react';
-import {View, FlatList, Text, StyleSheet, Button} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  FlatList,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
 import SearchBar from '../components/Searchbar';
-import MovieCard from '../components/Moviecard';
 import {searchMovies} from '../services/api';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import SearchCard from '../components/SearchCard';
+import Colors from '../utils/Colors';
 
 export default function SearchScreen({navigation}) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -10,9 +18,25 @@ export default function SearchScreen({navigation}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const handleSearch = () => {
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
+  const handleSearch = debounce(term => {
+    if (term.trim() === '') {
+      setMovies([]);
+      return;
+    }
     setLoading(true);
-    searchMovies(searchTerm) // Fetch movies using the API function
+    searchMovies(term)
       .then(data => {
         setMovies(data);
         setError(null);
@@ -24,32 +48,55 @@ export default function SearchScreen({navigation}) {
       .finally(() => {
         setLoading(false);
       });
-  };
+  }, 500);
+
+  useEffect(() => {
+    handleSearch(searchTerm);
+  }, [searchTerm]);
 
   return (
-    <View style={styles.container}>
-      <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      <Button title="Search" onPress={handleSearch} />
-      {loading && <Text>Loading...</Text>}
-      {error && <Text>Error: {error}</Text>}
-      <FlatList
-        data={movies}
-        renderItem={({item}) => (
-          <MovieCard
-            movie={item.show}
-            onPress={() => navigation.navigate('Details', {movie: item.show})}
+    <SafeAreaView style={styles.search_screen}>
+      <View style={styles.container}>
+        <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        {loading && <ActivityIndicator size="large" color={Colors.red} />}
+        {error && <Text>Error: {error}</Text>}
+        {/* Only show FlatList if there is a search term and movies */}
+        {searchTerm.trim() !== '' && movies.length > 0 && (
+          <FlatList
+            data={movies}
+            renderItem={({item}) => (
+              <SearchCard
+                movie={item.show}
+                onPress={() =>
+                  navigation.navigate('Details', {movie: item.show})
+                }
+              />
+            )}
+            keyExtractor={item => item.show.id.toString()}
           />
         )}
-        keyExtractor={item => item.show.id.toString()}
-      />
-    </View>
+        {/* Show a message when there are no results and the search term is not empty */}
+        {searchTerm.trim() !== '' &&
+          movies.length === 0 &&
+          !loading &&
+          !error && <Text style={styles.noResultsText}>No results found.</Text>}
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  seacrh_container: {
+  search_screen: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: Colors.black,
+    paddingHorizontal: 20,
+  },
+  container: {
+    flex: 1,
+  },
+  noResultsText: {
+    color: Colors.white,
+    textAlign: 'center',
+    marginTop: 20,
   },
 });

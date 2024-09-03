@@ -2,7 +2,7 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import SearchScreen from '../screens/Searchscreen';
 import StackNavigator from './StackNavigator';
-import Colors from '../styles/Colors';
+import Colors from '../utils/Colors';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
@@ -28,6 +28,7 @@ export default function TabNavigator() {
         headerShown: false,
         tabBarStyle: {
           backgroundColor: Colors.black,
+          display: route.name === 'Details' ? 'none' : 'flex',
         },
       })}>
       <Tab.Screen name="Home" component={StackNavigator} />
