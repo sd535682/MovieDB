@@ -3120,6 +3120,7 @@ __metadata:
     "@types/react-test-renderer": ^18.0.0
     babel-jest: ^29.6.3
     eslint: ^8.19.0
+    expo-modules: latest
     jest: ^29.6.3
     prettier: 2.8.8
     react: 18.3.1
@@ -5136,6 +5137,13 @@ __metadata:
     jest-message-util: ^29.7.0
     jest-util: ^29.7.0
   checksum: 9257f10288e149b81254a0fda8ffe8d54a7061cd61d7515779998b012579d2b8c22354b0eb901daf0145f347403da582f75f359f4810c007182ad3fb318b5c0c
+  languageName: node
+  linkType: hard
+
+"expo-modules@npm:latest":
+  version: 0.0.0
+  resolution: "expo-modules@npm:0.0.0"
+  checksum: 5e4beaca5ef5149a5dbcd5441096b53eeab303426d717cc9ce3d2a9b9d21152921b28e82b315fd23d1e28bb507e4280bfc85d2b411e7376358a2b5cbc41a0365
   languageName: node
   linkType: hard
 

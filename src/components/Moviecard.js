@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet, Pressable} from 'react-native';
+import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import {hp, wp} from '../utils/Reponsive';
 
 export default function MovieCard({movie, onPress}) {

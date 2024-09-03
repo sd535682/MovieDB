@@ -1,10 +1,4 @@
-import {
-  Text,
-  View,
-  StyleSheet,
-  FlatList,
-  ActivityIndicator,
-} from 'react-native';
+import {Text, View, StyleSheet, ActivityIndicator} from 'react-native';
 import {useState, useEffect} from 'react';
 import {fetchAllMovies} from '../services/api';
 import MovieCard from '../components/Moviecard';
@@ -14,7 +8,6 @@ import Header from '../components/Header';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import brandLogo from '../assets/netflix.png';
 import {FlashList} from '@shopify/flash-list';
-import {hp, wp} from '../utils/Reponsive';
 
 export default function HomeScreen() {
   const brandIcon = '../src/assets/netflix.svg';
