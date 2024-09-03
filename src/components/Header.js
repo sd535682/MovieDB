@@ -1,10 +1,9 @@
-import {StyleSheet, View, Text, Pressable} from 'react-native';
-import Colors from '../utils/Colors';
+import {StyleSheet, View, Text, Pressable, Image} from 'react-native';
 
-export default function Header({headerTitle, icon, location}) {
+export default function Header({logo, icon, location}) {
   return (
     <View style={styles.header}>
-      <Text style={styles.header_Title}>{headerTitle}</Text>
+      <Image source={logo} style={styles.logo} />
       <Pressable onPress={location}>{icon}</Pressable>
     </View>
   );
@@ -18,9 +17,5 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  header_Title: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    color: Colors.red,
-  },
+  logo: {height: 25, width: 25, resizeMode: 'contain'},
 });

@@ -12,8 +12,10 @@ import {useNavigation} from '@react-navigation/native';
 import Colors from '../utils/Colors';
 import Header from '../components/Header';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import brandLogo from '../assets/netflix.png';
 
 export default function HomeScreen() {
+  const brandIcon = '../src/assets/netflix.svg';
   const navigation = useNavigation();
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -62,7 +64,11 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.home_container}>
-      <Header headerTitle="N" icon={searchIcon} location={searchNavigation} />
+      <Header
+        logo={brandLogo}
+        icon={searchIcon}
+        location={searchNavigation}
+      />
       <FlatList
         data={movies}
         renderItem={({item}) => (
